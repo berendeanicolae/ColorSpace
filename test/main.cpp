@@ -1,6 +1,14 @@
-#include <cstdio>
+#include <gtest\gtest.h>
+#include "TestFixture.h"
+#include "utils.h"
 
-int main()
-{
-	return 0;
+TEST_F(TestFixture, ColorBuild) {
 }
+
+
+int main(int argc, char *argv[])
+{
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+}
+
