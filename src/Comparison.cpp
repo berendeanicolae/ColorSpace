@@ -76,6 +76,8 @@ namespace ColorSpace {
 		a->To<Lab>(&lab_a);
 		b->To<Lab>(&lab_b);
 
+
+
 		return 0;
 	}
 
