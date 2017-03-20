@@ -1,9 +1,20 @@
 #ifndef RGB_CONVERTER_H
 #define RGB_CONVERTER_H
 
-#include "ColorSpace.h"
-
 namespace ColorSpace {
+	struct Rgb;
+	struct Xyz;
+	struct Hsl;
+	struct Lab;
+	struct Lch;
+	struct Luv;
+	struct Yxy;
+	struct Cmy;
+	struct Cmyk;
+	struct Hsv;
+	struct Hsb;
+	struct HunterLab;
+
 	template <typename TColorSpace>
 	struct IConverter {
 		static void ToColorSpace(Rgb *color, TColorSpace *item);

@@ -1,9 +1,9 @@
 #ifndef COLOR_SPACE_H
 #define COLOR_SPACE_H
 
-namespace ColorSpace {
-	struct Rgb;
+#include "Conversion.h"
 
+namespace ColorSpace {
 	struct IColorSpace {
 		IColorSpace() {}
 		virtual ~IColorSpace() {}
@@ -11,7 +11,12 @@ namespace ColorSpace {
 		virtual void Initialize(Rgb *color) = 0;
 		virtual void ToRgb(Rgb *color) = 0;
 		template <typename TColorSpace>
-		void To(TColorSpace *color);
+		void To(TColorSpace *color) {
+			Rgb rgb;
+
+			this->ToRgb(&rgb);
+			IConverter<TColorSpace>::ToColorSpace(&rgb, color);
+		}
 	};
 
 

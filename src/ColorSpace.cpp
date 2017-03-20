@@ -2,14 +2,6 @@
 #include "Conversion.h"
 
 namespace ColorSpace {
-	template <typename TColorSpace>
-	void IColorSpace::To(TColorSpace *color) {
-		Rgb rgb;
-
-		this->ToRgb(&rgb);
-		IConverter<TColorSpace>::ToColorSpace(&rgb, color);
-	}
-
 	Rgb::Rgb() {}
 	Rgb::Rgb(double r, double g, double b) : r(r), g(g), b(b) {}
 	void Rgb::Initialize(Rgb *color) {

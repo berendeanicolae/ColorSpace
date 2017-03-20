@@ -1,4 +1,5 @@
 #include "Conversion.h"
+#include "ColorSpace.h"
 #include <cmath>
 
 namespace ColorSpace {
@@ -59,8 +60,8 @@ namespace ColorSpace {
 		double z = xyz.z / 108.883;
 
 		x = (x > 0.008856) ? pow(x, 1.0 / 3.0) : (7.787 * x + 16.0 / 116.0);
-		y = (y > 0.008856) ? pow(x, 1.0 / 3.0) : (7.787 * y + 16.0 / 116.0);
-		z = (x > 0.008856) ? pow(z, 1.0 / 3.0) : (7.787 * z + 16.0 / 116.0);
+		y = (y > 0.008856) ? pow(y, 1.0 / 3.0) : (7.787 * y + 16.0 / 116.0);
+		z = (z > 0.008856) ? pow(z, 1.0 / 3.0) : (7.787 * z + 16.0 / 116.0);
 
 		item->l = (116.0 * y) - 16;
 		item->a = 500 * (x - y);
