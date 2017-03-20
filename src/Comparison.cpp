@@ -17,8 +17,14 @@ namespace ColorSpace {
 	Cie94Comparison::Application::Application(Cie94Comparison::APPLICATION appType) {
 		switch (appType) {
 		case GRAPHIC_ARTS:
+			kl = 1.0;
+			k1 = 0.045;
+			k2 = 0.015;
 			break;
 		case TEXTILES:
+			kl = 2.0;
+			k1 = 0.048;
+			k2 = 0.014;
 			break;
 		}
 	}
