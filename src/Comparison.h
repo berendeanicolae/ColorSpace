@@ -4,6 +4,10 @@
 #include "ColorSpace.h"
 
 namespace ColorSpace {
+	struct EuclideanComparison {
+		static double Compare(IColorSpace *a, IColorSpace *b);
+	};
+
 	struct Cie1976Comparison {
 		static double Compare(IColorSpace *a, IColorSpace *b);
 	};

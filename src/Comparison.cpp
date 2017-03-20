@@ -4,6 +4,16 @@
 #define SQR(x) ((x)*(x))
 
 namespace ColorSpace {
+	double EuclideanComparison::Compare(IColorSpace *a, IColorSpace *b) {
+		Rgb rgb_a;
+		Rgb rgb_b;
+
+		a->ToRgb(&rgb_a);
+		b->ToRgb(&rgb_b);
+
+		return sqrt(SQR(rgb_a.r - rgb_b.r) + SQR(rgb_a.g - rgb_b.g) + SQR(rgb_a.b - rgb_a.b));
+	}
+
 	double Cie1976Comparison::Compare(IColorSpace *a, IColorSpace *b) {
 		Lab lab_a;
 		Lab lab_b;
