@@ -35,9 +35,15 @@ namespace ColorSpace {
 		virtual void ToRgb(Rgb *color);
 	};
 
-	/*struct Hsl : public IColorSpace {
-	double h, s, l;
-	};*/
+	struct Hsl : public IColorSpace {
+		double h, s, l;
+
+		Hsl();
+		Hsl(double h, double s, double l);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
+	};
 
 	struct Lab : public IColorSpace {
 		double l, a, b;
@@ -49,37 +55,85 @@ namespace ColorSpace {
 		virtual void ToRgb(Rgb *color);
 	};
 
-	/*struct Lch : public IColorSpace {
-	double l, c, h;
+	struct Lch : public IColorSpace {
+		double l, c, h;
+
+		Lch();
+		Lch(double l, double c, double h);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
 	};
 
 	struct Luv : public IColorSpace {
-	double l, u, v;
+		double l, u, v;
+
+		Luv();
+		Luv(double l, double u, double v);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
 	};
 
 	struct Yxy : public IColorSpace {
-	double y1, x, y2;
+		double y1, x, y2;
+
+		Yxy();
+		Yxy(double y1, double x, double y2);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
 	};
 
 	struct Cmy : public IColorSpace {
-	double c, m, y;
+		double c, m, y;
+
+		Cmy();
+		Cmy(double c, double m, double y);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
 	};
 
 	struct Cmyk : public IColorSpace {
-	double c, m, y, k;
+		double c, m, y, k;
+
+		Cmyk();
+		Cmyk(double c, double m, double y, double k);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
 	};
 
 	struct Hsv : public IColorSpace {
-	double h, s, v;
+		double h, s, v;
+
+		Hsv();
+		Hsv(double h, double s, double v);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
 	};
 
 	struct Hsb : public IColorSpace {
-	double h, s, b;
+		double h, s, b;
+
+		Hsb();
+		Hsb(double h, double s, double b);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
 	};
 
 	struct HunterLab : public IColorSpace {
-	double l, a, b;
-	};*/
+		double l, a, b;
+
+		HunterLab();
+		HunterLab(double l, double a, double b);
+
+		virtual void Initialize(Rgb *color);
+		virtual void ToRgb(Rgb *color);
+	};
 }
 
 #endif // COLOR_SPACE_H
