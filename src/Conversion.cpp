@@ -1,8 +1,22 @@
 #include "Conversion.h"
 #include "ColorSpace.h"
+#define _USE_MATH_DEFINES
 #include <cmath>
+#include <algorithm>
+
 
 namespace ColorSpace {
+	double Hue_2_RGB(double v1, double v2, double vh) {
+		if (vh < 0) vh += 1;
+		if (vh > 1) vh -= 1;
+		if (6 * vh < 1) return v1 + (v2 - v1) * 6 * vh;
+		if (2 * vh < 1) return v2;
+		if (3 * vh < 2) return v1 + (v2 - v1)*(2.0 / 3.0 - vh) * 6;
+		return v1;
+	}
+
+
+
 	void RgbConverter::ToColorSpace(Rgb *color, Rgb *item) {
 		item->r = color->r;
 		item->g = color->g;
@@ -46,8 +60,82 @@ namespace ColorSpace {
 	}
 
 	void HslConverter::ToColorSpace(Rgb *color, Hsl *item) {
+		double r = color->r / 255.0;
+		double g = color->g / 255.0;
+		double b = color->b / 255.0;
+
+		double min = std::min(r, std::min(g, b));
+		double max = std::max(r, std::max(g, b));
+		double delta = max - min;
+
+		double h;
+		double s;
+		double l;
+
+		l = (max + min) / 2;
+		if (delta == 0)
+		{
+			h = s = 0;
+		}
+		else {
+			if (l < 0.5) {
+				s = delta / (min + max);
+			}
+			else {
+				s = delta / (2 - min - max);
+			}
+
+			double deltaR = ((max - r) / 6 + (delta / 2)) / delta;
+			double deltaG = ((max - g) / 6 + (delta / 2)) / delta;
+			double deltaB = ((max - b) / 6 + (delta / 2)) / delta;
+
+			if (r == max) {
+				h = deltaB - deltaG;
+			}
+			else if (g == max) {
+				h = 1.0 / 3.0 + deltaR - deltaB;
+			}
+			else if (b == max) {
+				h = 2.0 / 3.0 + deltaG - deltaR;
+			}
+
+			if (h < 0) h += 1;
+			if (h > 1) h -= 1;
+		}
+		
+		item->h = h;
+		item->s = s;
+		item->l = l;
 	}
 	void HslConverter::ToColor(Rgb *color, Hsl *item) {
+		double r;
+		double g;
+		double b;
+
+		if (item->s == 0) {
+			r = item->l * 255;
+			g = item->l * 255;
+			b = item->l * 255;
+		}
+		else {
+			double temp1, temp2;
+
+			if (item->l < 0.5) {
+				temp2 = item->l*(1 + item->s);
+			}
+			else {
+				temp2 = (item->l + item->s) - (item->s*item->l);
+			}
+			temp1 = 2 * item->l - temp2;
+
+			r = 255 * Hue_2_RGB(temp1, temp2, item->h + 1.0 / 3.0);
+			g = 255 * Hue_2_RGB(temp1, temp2, item->h);
+			b = 255 * Hue_2_RGB(temp1, temp2, item->h - 1.0 / 3.0);
+		}
+
+		color->r = r;
+		color->g = g;
+		color->b = b;
 	}
 
 	void LabConverter::ToColorSpace(Rgb *color, Lab *item) {
@@ -85,8 +173,35 @@ namespace ColorSpace {
 	}
 
 	void LchConverter::ToColorSpace(Rgb *color, Lch *item) {
+		Lab lab;
+
+		LabConverter::ToColorSpace(color, &lab);
+		double l = lab.l;
+		double c = sqrt(sqrt(lab.a*lab.a + lab.b*lab.b));
+		double h = atan2(lab.b, lab.a);
+
+		h = h * 180 / M_PI;
+		if (h < 0) {
+			h += 360;
+		}
+		else if (h >= 360) {
+			h -= 360;
+		}
+
+		item->l = l;
+		item->c = c;
+		item->h = h;
 	}
 	void LchConverter::ToColor(Rgb *color, Lch *item) {
+		Lab lab;
+
+		item->h = item->h * M_PI / 180;
+
+		lab.l = item->l;
+		lab.a = cos(item->h)*item->c;
+		lab.b = sin(item->h)*item->c;
+
+		LabConverter::ToColor(color, &lab);
 	}
 
 	void LuvConverter::ToColorSpace(Rgb *color, Luv *item) {
@@ -110,18 +225,107 @@ namespace ColorSpace {
 	}
 
 	void HsvConverter::ToColorSpace(Rgb *color, Hsv *item) {
+		double r = color->r / 255.0;
+		double g = color->g / 255.0;
+		double b = color->b / 255.0;
+
+		double min = std::min(r, std::min(g, b));
+		double max = std::max(r, std::max(g, b));
+		double delta = max - min;
+
+		item->v = max;
+		if (delta == 0) {
+			item->h = 0;
+			item->s = -1;
+		}
+		else {
+			item->s = delta / max;
+
+			if (r == max) {
+				item->h = (g - b) / delta;
+			}
+			else if (g == max) {
+				item->h = 2 + (b - r) / delta;
+			}
+			else if (b == max) {
+				item->h = 4 + (r - g) / delta;
+			}
+
+			item->h *= 60;
+			if (item->h > 0) {
+				item->h += 360;
+			}
+		}
 	}
 	void HsvConverter::ToColor(Rgb *color, Hsv *item) {
+		if (item->s == 0) {
+			color->r = item->v * 255;
+			color->g = item->v * 255;
+			color->b = item->v * 255;
+		}
+		else {
+			int range = floor(item->h / 60);
+			double f = item->h - range;
+			double p = item->v*(1 - item->s);
+			double q = item->v*(1 - item->s*f);
+			double t = item->v*(1 - item->s*(1 - f));
+
+			switch (range) {
+				case 0:
+					color->r = item->v;
+					color->g = t;
+					color->b = p;
+					break;
+				case 1:
+					color->r = q;
+					color->g = item->v;
+					color->b = p;
+					break;
+				case 2:
+					color->r = p;
+					color->g = item->v;
+					color->b = t;
+					break;
+				case 3:
+					color->r = p;
+					color->g = q;
+					color->b = item->v;
+					break;
+				case 4:
+					color->r = t;
+					color->g = p;
+					color->b = item->v;
+					break;
+				default:		// case 5:
+					color->r = item->v;
+					color->g = p;
+					color->b = q;
+					break;
+			}
+		}
 	}
 
 	void HsbConverter::ToColorSpace(Rgb *color, Hsb *item) {
+
 	}
 	void HsbConverter::ToColor(Rgb *color, Hsb *item) {
 	}
 
 	void HunterLabConverter::ToColorSpace(Rgb *color, HunterLab *item) {
+		Xyz xyz;
+
+		XyzConverter::ToColorSpace(color, &xyz);
+		item->l = 10.0*sqrt(xyz.y);
+		item->a = (xyz.y != 0) ? (17.5*(1.02*xyz.x - xyz.y) / sqrt(xyz.y)) : 0;
+		item->b = (xyz.y != 0) ? (7.0*(xyz.y - 0.847*xyz.z) / sqrt(xyz.y)) : 0;
 	}
 	void HunterLabConverter::ToColor(Rgb *color, HunterLab *item) {
+		double x = (item->a / 17.5) *(item->l / 10.0);
+		double y = item->l*item->l / 100;
+		double z = item->b / 7.0 * item->l / 10.0;
+
+		Xyz xyz((x+y)/1.02, y, -(z-y)/0.847);
+		XyzConverter::ToColor(color, &xyz);
 	}
 }
 
