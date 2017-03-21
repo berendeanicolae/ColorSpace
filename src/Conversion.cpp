@@ -306,9 +306,20 @@ namespace ColorSpace {
 	}
 
 	void HsbConverter::ToColorSpace(Rgb *color, Hsb *item) {
+		Hsv hsv;
 
+		HsvConverter::ToColorSpace(color, &hsv);
+		item->h = hsv.h;
+		item->s = hsv.s;
+		item->b = hsv.v;
 	}
 	void HsbConverter::ToColor(Rgb *color, Hsb *item) {
+		Hsv hsv;
+
+		hsv.h = item->h;
+		hsv.s = item->s;
+		hsv.v = item->b;
+		HsvConverter::ToColorSpace(color, &hsv);
 	}
 
 	void HunterLabConverter::ToColorSpace(Rgb *color, HunterLab *item) {
