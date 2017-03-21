@@ -68,7 +68,7 @@ namespace ColorSpace {
 		item->b = 200 * (y - z);
 	}
 	void LabConverter::ToColor(Rgb *color, Lab *item) {
-		double y = (item->l + 16) / 116.0;
+		double y = (item->l + 16.0) / 116.0;
 		double x = item->a / 500.0 + y;
 		double z = y - item->b / 200.0;
 
@@ -78,7 +78,7 @@ namespace ColorSpace {
 
 		x = ((x3 > 0.008856) ? x3 : ((x - 16.0 / 116.0) / 7.787)) * 95.047;
 		y = ((y3 > 0.008856) ? y3 : ((y - 16.0 / 116.0) / 7.787)) * 100.0;
-		x = ((z3 > 0.008856) ? z3 : ((z - 16.0 / 116.0) / 7.787)) * 108.883;
+		z = ((z3 > 0.008856) ? z3 : ((z - 16.0 / 116.0) / 7.787)) * 108.883;
 
 		Xyz xyz(x, y, z);
 		XyzConverter::ToColor(color, &xyz);

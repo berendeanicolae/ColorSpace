@@ -3,10 +3,7 @@
 
 #include <gtest/gtest.h>
 
-class TestFixture : public ::testing::Test {
-	public:
-		TestFixture();
-		~TestFixture();
+struct TestFixtureConversion : public ::testing::Test {
 };
 
 #endif // TEST_FIXTURE_H

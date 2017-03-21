@@ -158,13 +158,13 @@
     <ClCompile Include="src\Comparison.cpp" />
     <ClCompile Include="src\Conversion.cpp" />
     <ClCompile Include="test\main.cpp" />
-    <ClCompile Include="test\TestFixture.cpp" />
+    <ClCompile Include="test\TestFixtureConversion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ColorSpace.h" />
     <ClInclude Include="src\Comparison.h" />
     <ClInclude Include="src\Conversion.h" />
-    <ClInclude Include="test\TestFixture.h" />
+    <ClInclude Include="test\TestFixtureConversion.h" />
     <ClInclude Include="test\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
