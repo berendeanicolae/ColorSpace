@@ -88,8 +88,8 @@ namespace ColorSpace {
 
 		c1 = sqrt(SQR(a1p) + SQR(lab_a.b));
 		c2 = sqrt(SQR(a2p) + SQR(lab_b.b));
-		double h1 = fmod(atan2(lab_a.b, a1p) * 180.0 / M_PI + 180.0, 360.0);
-		double h2 = fmod(atan2(lab_b.b, a2p) * 180.0 / M_PI + 180.0, 360.0);
+		double h1 = fmod(atan2(lab_a.b, a1p) * 180.0 / M_PI + 360.0, 360.0);
+		double h2 = fmod(atan2(lab_b.b, a2p) * 180.0 / M_PI + 360.0, 360.0);
 
 		// compute deltaL, deltaC, deltaH
 		double deltaL = lab_b.l - lab_a.l;
@@ -131,7 +131,7 @@ namespace ColorSpace {
 		double sl = 1 + (0.015*SQR(meanL - 50)) / sqrt(20 + SQR(meanL - 50));
 		double sc = 1 + 0.045*meanC;
 		double sh = 1 + 0.015*meanC*T;
-		double rt = -2 * sqrt(pow(meanC, 7) / (pow(meanC, 7) + pow(25, 7))) + sin(DegToRad(60 * exp(-SQR((meanH - 275) / 25))));
+		double rt = -2 * sqrt(pow(meanC, 7) / (pow(meanC, 7) + pow(25, 7))) * sin(DegToRad(60 * exp(-SQR((meanH - 275) / 25))));
 
 		return sqrt(SQR(deltaL/sl)+SQR(deltaC/sc)+SQR(deltaH/sh)+rt*deltaC/sc*deltaH/sh);
 	}
