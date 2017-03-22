@@ -58,6 +58,9 @@ namespace ColorSpace {
 		color->g = g;
 		color->b = b;
 	}
+	const double XyzConverter::eps = 216.0 / 24389.0;
+	const double XyzConverter::kappa = 24389.0 / 27.0;
+	const Xyz XyzConverter::whiteReference(95.047, 100.000, 108.883);
 
 	void HslConverter::ToColorSpace(Rgb *color, Hsl *item) {
 		double r = color->r / 255.0;
@@ -67,45 +70,26 @@ namespace ColorSpace {
 		double min = std::min(r, std::min(g, b));
 		double max = std::max(r, std::max(g, b));
 		double delta = max - min;
-
-		double h;
-		double s;
-		double l;
-
-		l = (max + min) / 2;
+		
+		item->l = (max + min) / 2;
 		if (delta == 0)
 		{
-			h = s = 0;
+			item->h = item->s = 0;
 		}
 		else {
-			if (l < 0.5) {
-				s = delta / (min + max);
-			}
-			else {
-				s = delta / (2 - min - max);
-			}
-
-			double deltaR = ((max - r) / 6 + (delta / 2)) / delta;
-			double deltaG = ((max - g) / 6 + (delta / 2)) / delta;
-			double deltaB = ((max - b) / 6 + (delta / 2)) / delta;
+			item->s = delta / (1 - abs(2 * item->l - 1)) * 100;
 
 			if (r == max) {
-				h = deltaB - deltaG;
+				item->h = 60*fmod((g-b)/delta, 6);
 			}
 			else if (g == max) {
-				h = 1.0 / 3.0 + deltaR - deltaB;
+				item->h = 60 * ((b - r) / delta + 2);
 			}
 			else if (b == max) {
-				h = 2.0 / 3.0 + deltaG - deltaR;
+				item->h = 60 * ((r - g) / delta + 4);
 			}
-
-			if (h < 0) h += 1;
-			if (h > 1) h -= 1;
 		}
-		
-		item->h = h;
-		item->s = s;
-		item->l = l;
+		item->l *= 100;
 	}
 	void HslConverter::ToColor(Rgb *color, Hsl *item) {
 		double r;
@@ -205,23 +189,81 @@ namespace ColorSpace {
 	}
 
 	void LuvConverter::ToColorSpace(Rgb *color, Luv *item) {
+		const Xyz &white = XyzConverter::whiteReference;
+		Xyz xyz;
+
+		XyzConverter::ToColorSpace(color, &xyz);
+		double y = xyz.y / white.y;
+		item->l = (y <= XyzConverter::eps) ? (XyzConverter::kappa*white.y) : (116 * cbrt(white.y) - 16);
+		item->u = 13 * item->l * (4 * xyz.x / (xyz.x + 15 * xyz.y + 3 * xyz.z) - 4 * white.x / (white.x + 15 * white.y + 3 * white.z)); // TODO: division by 0
+		item->v = 13 * item->l * (9 * xyz.y / (xyz.x + 15 * xyz.y + 3 * xyz.z) - 9 * white.y / (white.x + 15 * white.y + 3 * white.z));
 	}
 	void LuvConverter::ToColor(Rgb *color, Luv *item) {
+		const Xyz &white = XyzConverter::whiteReference;
+		Xyz xyz;
+
+		double y = (item->l > XyzConverter::eps*XyzConverter::kappa) ? pow((item->l + 16) / 116, 3) : (item->l / XyzConverter::kappa);
+		double up = 4 * white.x / (white.x + 15 * white.y + 3 * white.z);
+		double vp = 9 * white.y / (white.x + 15 * white.y + 3 * white.z);
+		xyz.x = (y*(39 * item->l / (item->v + 13 * item->l*vp) - 5) + 5 * y) / (1.0 / 3.0*(52 * item->l / (item->u + 13 * item->l*up) - 1) + 1.0 / 3.0);
+		xyz.y = y;
+		xyz.z = xyz.x*(1.0 / 3.0*(52 * item->l / (item->u + 13 * item->l*up) - 1)) - 5 * y;
+		XyzConverter::ToColor(color, &xyz);
 	}
 
 	void YxyConverter::ToColorSpace(Rgb *color, Yxy *item) {
+		Xyz xyz;
+
+		XyzConverter::ToColorSpace(color, &xyz);
+		item->y1 = xyz.y;
+		item->x = xyz.x / (xyz.x + xyz.y + xyz.z); // TODO: division by 0
+		item->y2 = xyz.z / (xyz.x + xyz.y + xyz.z); // TODO: division by 0
 	}
 	void YxyConverter::ToColor(Rgb *color, Yxy *item) {
+		Xyz xyz;
+
+		xyz.x = item->x*(item->y1 / item->y2);
+		xyz.y = item->y1;
+		xyz.z = (1 - item->x - item->y2)*(item->y1 / item->y2);
+		XyzConverter::ToColor(color, &xyz);
 	}
 
 	void CmyConverter::ToColorSpace(Rgb *color, Cmy *item) {
+		item->c = 1 - color->r / 255;
+		item->m = 1 - color->g / 255;
+		item->y = 1 - color->b / 255;
 	}
 	void CmyConverter::ToColor(Rgb *color, Cmy *item) {
+		color->r = (1 - item->c) * 255;
+		color->g = (1 - item->m) * 255;
+		color->b = (1 - item->y) * 255;
 	}
 
 	void CmykConverter::ToColorSpace(Rgb *color, Cmyk *item) {
+		Cmy cmy;
+
+		CmyConverter::ToColorSpace(color, &cmy);
+		double k = 1.0;
+		k = std::min(k, cmy.c);
+		k = std::min(k, cmy.m);
+		k = std::min(k, cmy.y);
+
+		item->k = k;
+		if (abs(item->k - 1) < 1e-3) {
+			item->c = 0;
+			item->m = 0;
+			item->y = 0;
+		}
+		else {
+			item->c = (cmy.c - k) / (1 - k);
+			item->m = (cmy.m - k) / (1 - k);
+			item->y = (cmy.y - k) / (1 - k);
+		}
 	}
 	void CmykConverter::ToColor(Rgb *color, Cmyk *item) {
+		color->r = item->c * (1 - item->k) + item->k;
+		color->g = item->m * (1 - item->k) + item->k;
+		color->b = item->y * (1 - item->k) + item->k;
 	}
 
 	void HsvConverter::ToColorSpace(Rgb *color, Hsv *item) {

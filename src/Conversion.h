@@ -32,6 +32,9 @@ namespace ColorSpace {
 	struct IConverter<Xyz> {
 		static void ToColorSpace(Rgb *color, Xyz *item);
 		static void ToColor(Rgb *color, Xyz *item);
+		static const double eps;
+		static const double kappa;
+		static const Xyz whiteReference;
 	};
 	typedef IConverter<Xyz> XyzConverter;
 
