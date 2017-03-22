@@ -215,9 +215,10 @@ namespace ColorSpace {
 		Xyz xyz;
 
 		XyzConverter::ToColorSpace(color, &xyz);
+		double temp = xyz.x + xyz.y + xyz.z;
 		item->y1 = xyz.y;
-		item->x = xyz.x / (xyz.x + xyz.y + xyz.z); // TODO: division by 0
-		item->y2 = xyz.z / (xyz.x + xyz.y + xyz.z); // TODO: division by 0
+		item->x = (temp==0) ? 0 : (xyz.x / temp);
+		item->y2 = (temp==0) ? 0 : (xyz.z / temp);
 	}
 	void YxyConverter::ToColor(Rgb *color, Yxy *item) {
 		Xyz xyz;
@@ -306,7 +307,7 @@ namespace ColorSpace {
 			color->b = item->v * 255;
 		}
 		else {
-			int range = floor(item->h / 60);
+			int range = (int)floor(item->h / 60);
 			double f = item->h - range;
 			double p = item->v*(1 - item->s);
 			double q = item->v*(1 - item->s*f);
