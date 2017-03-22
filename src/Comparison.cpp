@@ -70,6 +70,7 @@ namespace ColorSpace {
 	}
 
 	double Cie2000Comparison::Compare(IColorSpace *a, IColorSpace *b) {
+		const double eps = 1e-5;
 		Lab lab_a;
 		Lab lab_b;
 
@@ -80,9 +81,11 @@ namespace ColorSpace {
 		double c1 = sqrt(SQR(lab_a.a) + SQR(lab_a.b));
 		double c2 = sqrt(SQR(lab_b.a) + SQR(lab_b.b));
 		double meanC = (c1 + c2) / 2.0;
+		double meanC7 = (meanC*meanC*meanC)*(meanC*meanC*meanC)*meanC;
 
-		double a1p = lab_a.a + lab_a.a / 2.0*(1 - sqrt(pow(meanC, 7) / (pow(meanC, 7) + pow(25, 7)))); // TODO: optimize
-		double a2p = lab_b.a + lab_b.a / 2.0*(1 - sqrt(pow(meanC, 7) / (pow(meanC, 7) + pow(25, 7)))); // TODO: optimize
+		double g = 0.5*(1 - sqrt(meanC7 / (meanC7 + 6103515625.))); // 0.5*(1-sqrt(meanC^7/(meanC^7+25^7)))
+		double a1p = lab_a.a * (1 + g);
+		double a2p = lab_b.a * (1 + g);
 
 		c1 = sqrt(SQR(a1p) + SQR(lab_a.b));
 		c2 = sqrt(SQR(a2p) + SQR(lab_b.b));
@@ -94,7 +97,10 @@ namespace ColorSpace {
 		double deltaC = c2 - c1;
 		double deltah;
 
-		if (abs(h2 - h1) < 180) {
+		if (c1*c2 < eps) {
+			deltah = 0;
+		}
+		if (abs(h2 - h1) <= 180) {
 			deltah = h2 - h1;
 		}
 		else if (h2 > h1) {
@@ -109,8 +115,12 @@ namespace ColorSpace {
 		// calculate CIEDE2000
 		double meanL = (lab_a.l + lab_b.l) / 2;
 		meanC = (c1 + c2) / 2.0;
+		meanC7 = (meanC*meanC*meanC)*(meanC*meanC*meanC)*meanC;
 		double meanH;
 
+		if (c1*c2 < eps) {
+			meanH = h1 + h2;
+		}
 		if (abs(h1 - h2) <= 180) {
 			meanH = (h1 + h2) / 2;
 		}
@@ -129,9 +139,10 @@ namespace ColorSpace {
 		double sl = 1 + (0.015*SQR(meanL - 50)) / sqrt(20 + SQR(meanL - 50));
 		double sc = 1 + 0.045*meanC;
 		double sh = 1 + 0.015*meanC*T;
-		double rt = -2 * sqrt(pow(meanC, 7) / (pow(meanC, 7) + pow(25, 7))) * sin(DegToRad(60 * exp(-SQR((meanH - 275) / 25))));
+		double rc = 2 * sqrt(meanC7 / (meanC7 + 6103515625.));
+		double rt = -sin(DegToRad(60 * exp(-SQR((meanH - 275) / 25)))) * rc;
 
-		return sqrt(SQR(deltaL/sl)+SQR(deltaC/sc)+SQR(deltaH/sh)+rt*deltaC/sc*deltaH/sh);
+		return sqrt(SQR(deltaL / sl) + SQR(deltaC / sc) + SQR(deltaH / sh) + rt*deltaC / sc*deltaH / sh);
 	}
 
 	double CmcComparison::Compare(IColorSpace *a, IColorSpace *b) {
