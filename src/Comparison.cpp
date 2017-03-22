@@ -142,7 +142,7 @@ namespace ColorSpace {
 		double rc = 2 * sqrt(meanC7 / (meanC7 + 6103515625.));
 		double rt = -sin(DegToRad(60 * exp(-SQR((meanH - 275) / 25)))) * rc;
 
-		return sqrt(SQR(deltaL / sl) + SQR(deltaC / sc) + SQR(deltaH / sh) + rt*deltaC / sc*deltaH / sh);
+		return sqrt(SQR(deltaL / sl) + SQR(deltaC / sc) + SQR(deltaH / sh) + rt * deltaC / sc * deltaH / sh);
 	}
 
 	double CmcComparison::Compare(IColorSpace *a, IColorSpace *b) {
