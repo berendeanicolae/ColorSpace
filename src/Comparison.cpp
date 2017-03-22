@@ -58,7 +58,6 @@ namespace ColorSpace {
 		double deltaC = c1 - c2;
 
 		double deltaH = SQR(deltaA) + SQR(deltaB) - SQR(deltaC);
-		deltaH = (deltaH < 0 ? 0 : sqrt(deltaH)); // TODO: sqrt not required https://github.com/THEjoezack/ColorMine/issues/40
 
 		double sl = 1.0;
 		double sc = 1.0 + app.k1*c1;
@@ -66,9 +65,8 @@ namespace ColorSpace {
 
 		deltaL /= app.kl*sl;
 		deltaC /= sc;
-		deltaH /= sh;
 
-		return sqrt(SQR(deltaL) + SQR(deltaC) + SQR(deltaH));
+		return sqrt(SQR(deltaL) + SQR(deltaC) + deltaH/SQR(sh));
 	}
 
 	double Cie2000Comparison::Compare(IColorSpace *a, IColorSpace *b) {

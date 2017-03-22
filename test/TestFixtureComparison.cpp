@@ -5,7 +5,11 @@
 #include <Comparison.h>
 #include <algorithm>
 
-bool nearlyEqual(double a, double b) { //http://floating-point-gui.de/errors/comparison/
+/*
+	Floating point comparison function adapted from
+	http://floating-point-gui.de/errors/comparison/
+*/
+bool nearlyEqual(double a, double b) {
 	const double eps = 1e-2;
 	double absA = abs(a);
 	double absB = abs(b);
@@ -20,6 +24,10 @@ bool nearlyEqual(double a, double b) { //http://floating-point-gui.de/errors/com
 	return (diff / std::min(absA + absB, std::numeric_limits<double>::max())) < eps;
 }
 
+
+/*
+	CieDe1976 tests
+*/
 TEST_F(TestFixtureComparison, CIE1976_Test1) {
 	ColorSpace::Rgb rgb(140, 130, 23);
 	ColorSpace::Rgb a, b;
@@ -43,6 +51,9 @@ TEST_F(TestFixtureComparison, CIE1976_Test3) {
 }
 
 
+/*
+	CieDe94 tests
+*/
 TEST_F(TestFixtureComparison, CIE94_Test1) {
 	ColorSpace::Lab a(70.1, 53, -3.2);
 	ColorSpace::Lab b(67.4, 47.7, -5.34);
