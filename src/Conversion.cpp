@@ -4,6 +4,8 @@
 #include <cmath>
 #include <algorithm>
 
+#define POW3(x) ((x)*(x)*(x))
+#define POW7(x) (POW3(x)*POW3(x)*(x))
 
 namespace ColorSpace {
 	double Hue_2_RGB(double v1, double v2, double vh) {
@@ -88,38 +90,28 @@ namespace ColorSpace {
 			else if (b == max) {
 				item->h = 60 * ((r - g) / delta + 4);
 			}
+			item->h = fmod(item->h + 360, 360);
 		}
 		item->l *= 100;
 	}
 	void HslConverter::ToColor(Rgb *color, Hsl *item) {
-		double r;
-		double g;
-		double b;
+		double h = item->h / 360;
+		double s = item->s / 100;
+		double l = item->l / 100;
 
 		if (item->s == 0) {
-			r = item->l * 255;
-			g = item->l * 255;
-			b = item->l * 255;
+			color->r = color->g = color->b = item->l * 255;
 		}
 		else {
 			double temp1, temp2;
 
-			if (item->l < 0.5) {
-				temp2 = item->l*(1 + item->s);
-			}
-			else {
-				temp2 = (item->l + item->s) - (item->s*item->l);
-			}
-			temp1 = 2 * item->l - temp2;
+			temp2 = (l < 0.5) ? (l*(1 + s)) : (l + s - (s*l));
+			temp1 = 2 * l - temp2;
 
-			r = 255 * Hue_2_RGB(temp1, temp2, item->h + 1.0 / 3.0);
-			g = 255 * Hue_2_RGB(temp1, temp2, item->h);
-			b = 255 * Hue_2_RGB(temp1, temp2, item->h - 1.0 / 3.0);
+			color->r = 255 * Hue_2_RGB(temp1, temp2, h + 1.0 / 3.0);
+			color->g = 255 * Hue_2_RGB(temp1, temp2, h);
+			color->b = 255 * Hue_2_RGB(temp1, temp2, h - 1.0 / 3.0);
 		}
-
-		color->r = r;
-		color->g = g;
-		color->b = b;
 	}
 
 	void LabConverter::ToColorSpace(Rgb *color, Lab *item) {
@@ -144,9 +136,9 @@ namespace ColorSpace {
 		double x = item->a / 500.0 + y;
 		double z = y - item->b / 200.0;
 
-		double x3 = x*x*x;
-		double y3 = y*y*y;
-		double z3 = z*z*z;
+		double x3 = POW3(x);
+		double y3 = POW3(y);
+		double z3 = POW3(z);
 
 		x = ((x3 > 0.008856) ? x3 : ((x - 16.0 / 116.0) / 7.787)) * 95.047;
 		y = ((y3 > 0.008856) ? y3 : ((y - 16.0 / 116.0) / 7.787)) * 100.0;
@@ -194,20 +186,31 @@ namespace ColorSpace {
 
 		XyzConverter::ToColorSpace(color, &xyz);
 		double y = xyz.y / white.y;
-		item->l = (y <= XyzConverter::eps) ? (XyzConverter::kappa*white.y) : (116 * cbrt(white.y) - 16);
-		item->u = 13 * item->l * (4 * xyz.x / (xyz.x + 15 * xyz.y + 3 * xyz.z) - 4 * white.x / (white.x + 15 * white.y + 3 * white.z)); // TODO: division by 0
-		item->v = 13 * item->l * (9 * xyz.y / (xyz.x + 15 * xyz.y + 3 * xyz.z) - 9 * white.y / (white.x + 15 * white.y + 3 * white.z));
+		double temp = (xyz.x + 15 * xyz.y + 3 * xyz.z);
+		double tempr = (white.x + 15 * white.y + 3 * white.z);
+
+		item->l = (y > XyzConverter::eps) ? (116 * cbrt(y) - 16) : (XyzConverter::kappa*y);
+		item->u = 52 * item->l * (((temp > 1e-3) ? (xyz.x / temp) : 0) - white.x / tempr);
+		item->v = 117 * item->l * (((temp > 1e-3) ? (xyz.y / temp) : 0) - white.y / tempr);
 	}
 	void LuvConverter::ToColor(Rgb *color, Luv *item) {
 		const Xyz &white = XyzConverter::whiteReference;
 		Xyz xyz;
 
-		double y = (item->l > XyzConverter::eps*XyzConverter::kappa) ? pow((item->l + 16) / 116, 3) : (item->l / XyzConverter::kappa);
-		double up = 4 * white.x / (white.x + 15 * white.y + 3 * white.z);
-		double vp = 9 * white.y / (white.x + 15 * white.y + 3 * white.z);
-		xyz.x = (y*(39 * item->l / (item->v + 13 * item->l*vp) - 5) + 5 * y) / (1.0 / 3.0*(52 * item->l / (item->u + 13 * item->l*up) - 1) + 1.0 / 3.0);
-		xyz.y = y;
-		xyz.z = xyz.x*(1.0 / 3.0*(52 * item->l / (item->u + 13 * item->l*up) - 1)) - 5 * y;
+		double y = (item->l > XyzConverter::eps*XyzConverter::kappa) ? POW3((item->l + 16) / 116) : (item->l / XyzConverter::kappa);
+		double tempr = white.x + 15 * white.y + 3 * white.z;
+		double up = 4 * white.x / tempr;
+		double vp = 9 * white.y / tempr;
+
+		double a = 1. / 3. * (52 * item->l / (item->u + 13 * item->l*up) - 1);
+		double b = -5 * y;
+		double x = (y*(39 * item->l / (item->v + 13 * item->l*vp) - 5) - b) / (a + 1. / 3.);
+		double z = x*a + b;
+
+		xyz.x = x * 100;
+		xyz.y = y * 100;
+		xyz.z = z * 100;
+
 		XyzConverter::ToColor(color, &xyz);
 	}
 
@@ -218,7 +221,7 @@ namespace ColorSpace {
 		double temp = xyz.x + xyz.y + xyz.z;
 		item->y1 = xyz.y;
 		item->x = (temp==0) ? 0 : (xyz.x / temp);
-		item->y2 = (temp==0) ? 0 : (xyz.z / temp);
+		item->y2 = (temp==0) ? 0 : (xyz.y / temp);
 	}
 	void YxyConverter::ToColor(Rgb *color, Yxy *item) {
 		Xyz xyz;
@@ -277,13 +280,12 @@ namespace ColorSpace {
 		double delta = max - min;
 
 		item->v = max;
+		item->s = (max > 1e-3) ? (delta / max) : 0;
+
 		if (delta == 0) {
 			item->h = 0;
-			item->s = -1;
 		}
 		else {
-			item->s = delta / max;
-
 			if (r == max) {
 				item->h = (g - b) / delta;
 			}
@@ -295,56 +297,46 @@ namespace ColorSpace {
 			}
 
 			item->h *= 60;
-			if (item->h > 0) {
-				item->h += 360;
-			}
+			item->h = fmod(item->h + 360, 360);
 		}
 	}
 	void HsvConverter::ToColor(Rgb *color, Hsv *item) {
-		if (item->s == 0) {
-			color->r = item->v * 255;
-			color->g = item->v * 255;
-			color->b = item->v * 255;
-		}
-		else {
-			int range = (int)floor(item->h / 60);
-			double f = item->h - range;
-			double p = item->v*(1 - item->s);
-			double q = item->v*(1 - item->s*f);
-			double t = item->v*(1 - item->s*(1 - f));
+		int range = (int)floor(item->h / 60);
+		double c = item->v*item->s;
+		double x = c*(1 - abs(fmod(item->h / 60, 2) - 1));
+		double m = item->v - c;
 
-			switch (range) {
-				case 0:
-					color->r = item->v;
-					color->g = t;
-					color->b = p;
-					break;
-				case 1:
-					color->r = q;
-					color->g = item->v;
-					color->b = p;
-					break;
-				case 2:
-					color->r = p;
-					color->g = item->v;
-					color->b = t;
-					break;
-				case 3:
-					color->r = p;
-					color->g = q;
-					color->b = item->v;
-					break;
-				case 4:
-					color->r = t;
-					color->g = p;
-					color->b = item->v;
-					break;
-				default:		// case 5:
-					color->r = item->v;
-					color->g = p;
-					color->b = q;
-					break;
-			}
+		switch (range) {
+			case 0:
+				color->r = (c + m) * 255;
+				color->g = (x + m) * 255;
+				color->b = m * 255;
+				break;
+			case 1:
+				color->r = (x + m) * 255;
+				color->g = (c + m) * 255;
+				color->b = m * 255;
+				break;
+			case 2:
+				color->r = m * 255;
+				color->g = (c + m) * 255;
+				color->b = (x + m) * 255;
+				break;
+			case 3:
+				color->r = m * 255;
+				color->g = (x + m) * 255;
+				color->b = (c + m) * 255;
+				break;
+			case 4:
+				color->r = (x + m) * 255;
+				color->g = m * 255;
+				color->b = (c + m) * 255;
+				break;
+			default:		// case 5:
+				color->r = (c + m) * 255;
+				color->g = m * 255;
+				color->b = (x + m) * 255;
+				break;
 		}
 	}
 
