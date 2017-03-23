@@ -153,10 +153,10 @@ namespace ColorSpace {
 
 		LabConverter::ToColorSpace(color, &lab);
 		double l = lab.l;
-		double c = sqrt(sqrt(lab.a*lab.a + lab.b*lab.b));
+		double c = sqrt(lab.a*lab.a + lab.b*lab.b);
 		double h = atan2(lab.b, lab.a);
 
-		h = h * 180 / M_PI;
+		h = h / M_PI * 180;
 		if (h < 0) {
 			h += 360;
 		}
@@ -265,9 +265,12 @@ namespace ColorSpace {
 		}
 	}
 	void CmykConverter::ToColor(Rgb *color, Cmyk *item) {
-		color->r = item->c * (1 - item->k) + item->k;
-		color->g = item->m * (1 - item->k) + item->k;
-		color->b = item->y * (1 - item->k) + item->k;
+		Cmy cmy;
+
+		cmy.c = item->c * (1 - item->k) + item->k;
+		cmy.m = item->m * (1 - item->k) + item->k;
+		cmy.y = item->y * (1 - item->k) + item->k;
+		CmyConverter::ToColor(color, &cmy);
 	}
 
 	void HsvConverter::ToColorSpace(Rgb *color, Hsv *item) {

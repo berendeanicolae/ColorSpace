@@ -15,7 +15,7 @@ bool nearlyEqual(double a, double b) {
 	if (a == b) {
 		return true;
 	}
-	if (a == 0 || b == 0 || diff<std::numeric_limits<double>::epsilon()) {
+	if (a == 0 || b == 0 || absA+absB<std::numeric_limits<double>::epsilon()) {
 		return diff < eps*std::numeric_limits<double>::epsilon();
 	}
 	return (diff / std::min(absA + absB, std::numeric_limits<double>::max())) < eps;
