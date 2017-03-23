@@ -79,18 +79,23 @@ namespace ColorSpace {
 			item->h = item->s = 0;
 		}
 		else {
-			item->s = delta / (1 - abs(2 * item->l - 1)) * 100;
+			if (item->l < 0.5) {
+				item->s = delta / (max + min) * 100;
+			}
+			else {
+				item->s = delta / (1 - abs(2 * item->l - 1)) * 100;
+			}
 
 			if (r == max) {
-				item->h = 60*fmod((g-b)/delta, 6);
+				item->h =  (g - b) / delta;
 			}
 			else if (g == max) {
-				item->h = 60 * ((b - r) / delta + 2);
+				item->h = (b - r) / delta + 2;
 			}
 			else if (b == max) {
-				item->h = 60 * ((r - g) / delta + 4);
+				item->h = (r - g) / delta + 4;
 			}
-			item->h = fmod(item->h + 360, 360);
+			item->h = fmod(60 * item->h + 360, 360);
 		}
 		item->l *= 100;
 	}
