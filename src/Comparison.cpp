@@ -121,7 +121,7 @@ namespace ColorSpace {
 		if (c1*c2 < eps) {
 			meanH = h1 + h2;
 		}
-		if (abs(h1 - h2) <= 180) {
+		if (abs(h1 - h2) <= 180 + 1e-3) {
 			meanH = (h1 + h2) / 2;
 		}
 		else if (h1 + h2 < 360) {
