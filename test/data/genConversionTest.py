@@ -35,7 +35,7 @@ def getAssert(color):
     dstColor = getColor(color)
     asserts = []
     for e in dstColor:
-        asserts.append("\tASSERT_TRUE(equal(dstColor.{0}, target.{0}));".format(e))
+        asserts.append("\tASSERT_TRUE(nearlyEqual(dstColor.{0}, target.{0}));".format(e))
 
     return "\r\n".join(asserts)
 
