@@ -15,5 +15,7 @@ namespace testing {
 
 #define PRINTF(...)  do { testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[          ] "); testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW, __VA_ARGS__); } while(0)
 
+bool nearlyEqual(double a, double b);
+
 #endif // UTILS_H
 

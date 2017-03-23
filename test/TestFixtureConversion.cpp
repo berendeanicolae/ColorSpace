@@ -4,11 +4,6 @@
 #include <ColorSpace.h>
 #include <Conversion.h>
 
-bool equal(double a, double b) {
-	double const eps = 1e-2;
-	return abs(a - b) < eps;
-}
-
 TEST_F(TestFixtureConversion, ColorConversionWhiteRgbCmy) {
 	ColorSpace::Rgb srcColor(255, 255, 255);
 	ColorSpace::Cmy dstColor;
@@ -16,9 +11,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -29,10 +24,10 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -43,9 +38,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -56,9 +51,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -69,9 +64,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -82,9 +77,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -95,9 +90,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -108,9 +103,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -121,9 +116,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbLuv) {
 
 	srcColor.To<ColorSpace::Luv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.u, target.u));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.u, target.u));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -134,9 +129,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbHsv) {
 
 	srcColor.To<ColorSpace::Hsv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -147,9 +142,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbHsb) {
 
 	srcColor.To<ColorSpace::Hsb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -160,9 +155,9 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbHunterLab) {
 
 	srcColor.To<ColorSpace::HunterLab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -173,9 +168,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -186,10 +181,10 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -200,9 +195,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -213,9 +208,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -226,9 +221,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -239,9 +234,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -252,9 +247,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -265,9 +260,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -278,9 +273,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbLuv) {
 
 	srcColor.To<ColorSpace::Luv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.u, target.u));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.u, target.u));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -291,9 +286,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbHsv) {
 
 	srcColor.To<ColorSpace::Hsv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -304,9 +299,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbHsb) {
 
 	srcColor.To<ColorSpace::Hsb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -317,9 +312,9 @@ TEST_F(TestFixtureConversion, ColorConversionBlackRgbHunterLab) {
 
 	srcColor.To<ColorSpace::HunterLab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -330,9 +325,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -343,10 +338,10 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -357,9 +352,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -370,9 +365,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -383,9 +378,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -396,9 +391,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -409,9 +404,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -422,9 +417,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -435,9 +430,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbLuv) {
 
 	srcColor.To<ColorSpace::Luv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.u, target.u));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.u, target.u));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -448,9 +443,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbHsv) {
 
 	srcColor.To<ColorSpace::Hsv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -461,9 +456,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbHsb) {
 
 	srcColor.To<ColorSpace::Hsb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -474,9 +469,9 @@ TEST_F(TestFixtureConversion, ColorConversionGoldenrodRgbHunterLab) {
 
 	srcColor.To<ColorSpace::HunterLab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -487,9 +482,9 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -500,10 +495,10 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -514,9 +509,9 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -527,9 +522,9 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -540,9 +535,9 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -553,9 +548,9 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -566,9 +561,9 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -579,9 +574,9 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -592,9 +587,9 @@ TEST_F(TestFixtureConversion, ColorConversionSteelBlueCmyLuv) {
 
 	srcColor.To<ColorSpace::Luv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.u, target.u));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.u, target.u));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -605,9 +600,9 @@ TEST_F(TestFixtureConversion, ColorConversionDarkVioletCmykCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -618,10 +613,10 @@ TEST_F(TestFixtureConversion, ColorConversionDarkVioletCmykCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -632,9 +627,9 @@ TEST_F(TestFixtureConversion, ColorConversionDarkVioletCmykHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -645,9 +640,9 @@ TEST_F(TestFixtureConversion, ColorConversionDarkVioletCmykLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -658,9 +653,9 @@ TEST_F(TestFixtureConversion, ColorConversionDarkVioletCmykLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -671,9 +666,9 @@ TEST_F(TestFixtureConversion, ColorConversionDarkVioletCmykRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -684,9 +679,9 @@ TEST_F(TestFixtureConversion, ColorConversionDarkVioletCmykXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -697,9 +692,9 @@ TEST_F(TestFixtureConversion, ColorConversionDarkVioletCmykYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -710,9 +705,9 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -723,10 +718,10 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -737,9 +732,9 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -750,9 +745,9 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -763,9 +758,9 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -776,9 +771,9 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -789,9 +784,9 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -802,9 +797,9 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -815,9 +810,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -828,10 +823,10 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -842,9 +837,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -855,9 +850,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -868,9 +863,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -881,9 +876,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -894,9 +889,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -907,9 +902,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -920,9 +915,9 @@ TEST_F(TestFixtureConversion, ColorConversionMaroonLchCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -933,10 +928,10 @@ TEST_F(TestFixtureConversion, ColorConversionMaroonLchCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -947,9 +942,9 @@ TEST_F(TestFixtureConversion, ColorConversionMaroonLchHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -960,9 +955,9 @@ TEST_F(TestFixtureConversion, ColorConversionMaroonLchLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -973,9 +968,9 @@ TEST_F(TestFixtureConversion, ColorConversionMaroonLchLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -986,9 +981,9 @@ TEST_F(TestFixtureConversion, ColorConversionMaroonLchRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -999,9 +994,9 @@ TEST_F(TestFixtureConversion, ColorConversionMaroonLchXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -1012,9 +1007,9 @@ TEST_F(TestFixtureConversion, ColorConversionMaroonLchYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -1025,9 +1020,9 @@ TEST_F(TestFixtureConversion, ColorConversionRivergumXyzCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -1038,10 +1033,10 @@ TEST_F(TestFixtureConversion, ColorConversionRivergumXyzCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -1052,9 +1047,9 @@ TEST_F(TestFixtureConversion, ColorConversionRivergumXyzHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -1065,9 +1060,9 @@ TEST_F(TestFixtureConversion, ColorConversionRivergumXyzLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1078,9 +1073,9 @@ TEST_F(TestFixtureConversion, ColorConversionRivergumXyzLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -1091,9 +1086,9 @@ TEST_F(TestFixtureConversion, ColorConversionRivergumXyzRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1104,9 +1099,9 @@ TEST_F(TestFixtureConversion, ColorConversionRivergumXyzXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -1117,9 +1112,9 @@ TEST_F(TestFixtureConversion, ColorConversionRivergumXyzYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -1130,9 +1125,9 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -1143,10 +1138,10 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -1157,9 +1152,9 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -1170,9 +1165,9 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1183,9 +1178,9 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -1196,9 +1191,9 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1209,9 +1204,9 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -1222,9 +1217,9 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -1235,9 +1230,9 @@ TEST_F(TestFixtureConversion, ColorConversionSilverLuvLuv) {
 
 	srcColor.To<ColorSpace::Luv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.u, target.u));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.u, target.u));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -1248,9 +1243,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -1261,10 +1256,10 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -1275,9 +1270,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -1288,9 +1283,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1301,9 +1296,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -1314,9 +1309,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1327,9 +1322,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -1340,9 +1335,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -1353,9 +1348,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsvLuv) {
 
 	srcColor.To<ColorSpace::Luv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.u, target.u));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.u, target.u));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -1366,9 +1361,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbCmy) {
 
 	srcColor.To<ColorSpace::Cmy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
 }
 
 
@@ -1379,10 +1374,10 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbCmyk) {
 
 	srcColor.To<ColorSpace::Cmyk>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.m, target.m));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.k, target.k));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.m, target.m));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.k, target.k));
 }
 
 
@@ -1393,9 +1388,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbHsl) {
 
 	srcColor.To<ColorSpace::Hsl>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.h, target.h));
-	ASSERT_TRUE(equal(dstColor.s, target.s));
-	ASSERT_TRUE(equal(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.s, target.s));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
 }
 
 
@@ -1406,9 +1401,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbLab) {
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.a, target.a));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.a, target.a));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1419,9 +1414,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbLch) {
 
 	srcColor.To<ColorSpace::Lch>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.c, target.c));
-	ASSERT_TRUE(equal(dstColor.h, target.h));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.c, target.c));
+	ASSERT_TRUE(nearlyEqual(dstColor.h, target.h));
 }
 
 
@@ -1432,9 +1427,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1445,9 +1440,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 
 
@@ -1458,9 +1453,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbYxy) {
 
 	srcColor.To<ColorSpace::Yxy>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.y1, target.y1));
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y2, target.y2));
+	ASSERT_TRUE(nearlyEqual(dstColor.y1, target.y1));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y2, target.y2));
 }
 
 
@@ -1471,9 +1466,9 @@ TEST_F(TestFixtureConversion, ColorConversionAquamarineHsbLuv) {
 
 	srcColor.To<ColorSpace::Luv>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.l, target.l));
-	ASSERT_TRUE(equal(dstColor.u, target.u));
-	ASSERT_TRUE(equal(dstColor.v, target.v));
+	ASSERT_TRUE(nearlyEqual(dstColor.l, target.l));
+	ASSERT_TRUE(nearlyEqual(dstColor.u, target.u));
+	ASSERT_TRUE(nearlyEqual(dstColor.v, target.v));
 }
 
 
@@ -1484,9 +1479,9 @@ TEST_F(TestFixtureConversion, ColorConversionBabyBlueHunterLabRgb) {
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.r, target.r));
-	ASSERT_TRUE(equal(dstColor.g, target.g));
-	ASSERT_TRUE(equal(dstColor.b, target.b));
+	ASSERT_TRUE(nearlyEqual(dstColor.r, target.r));
+	ASSERT_TRUE(nearlyEqual(dstColor.g, target.g));
+	ASSERT_TRUE(nearlyEqual(dstColor.b, target.b));
 }
 
 
@@ -1497,8 +1492,8 @@ TEST_F(TestFixtureConversion, ColorConversionBabyBlueHunterLabXyz) {
 
 	srcColor.To<ColorSpace::Xyz>(&dstColor);
 
-	ASSERT_TRUE(equal(dstColor.x, target.x));
-	ASSERT_TRUE(equal(dstColor.y, target.y));
-	ASSERT_TRUE(equal(dstColor.z, target.z));
+	ASSERT_TRUE(nearlyEqual(dstColor.x, target.x));
+	ASSERT_TRUE(nearlyEqual(dstColor.y, target.y));
+	ASSERT_TRUE(nearlyEqual(dstColor.z, target.z));
 }
 

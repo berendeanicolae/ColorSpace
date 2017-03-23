@@ -160,6 +160,7 @@
     <ClCompile Include="test\main.cpp" />
     <ClCompile Include="test\TestFixtureComparison.cpp" />
     <ClCompile Include="test\TestFixtureConversion.cpp" />
+    <ClCompile Include="test\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ColorSpace.h" />
