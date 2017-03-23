@@ -357,7 +357,7 @@ namespace ColorSpace {
 		hsv.h = item->h;
 		hsv.s = item->s;
 		hsv.v = item->b;
-		HsvConverter::ToColorSpace(color, &hsv);
+		HsvConverter::ToColor(color, &hsv);
 	}
 
 	void HunterLabConverter::ToColorSpace(Rgb *color, HunterLab *item) {
