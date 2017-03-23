@@ -47,7 +47,7 @@ TEST_F(TestFixtureConversion, ColorConversionWhiteRgbHsl) {
 TEST_F(TestFixtureConversion, ColorConversionWhiteRgbLab) {
 	ColorSpace::Rgb srcColor(255, 255, 255);
 	ColorSpace::Lab dstColor;
-	ColorSpace::Lab target(100, 0.00526, -.0104);
+	ColorSpace::Lab target(100, 0, 0);
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
@@ -804,7 +804,7 @@ TEST_F(TestFixtureConversion, ColorConversionAliceBlueHslYxy) {
 
 
 TEST_F(TestFixtureConversion, ColorConversionRedLabCmy) {
-	ColorSpace::Lab srcColor(53.233, 80.109, 67.220);
+	ColorSpace::Lab srcColor(53.240, 80.092, 67.203);
 	ColorSpace::Cmy dstColor;
 	ColorSpace::Cmy target(0.0000035, .99970, 1);
 
@@ -817,7 +817,7 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabCmy) {
 
 
 TEST_F(TestFixtureConversion, ColorConversionRedLabCmyk) {
-	ColorSpace::Lab srcColor(53.233, 80.109, 67.220);
+	ColorSpace::Lab srcColor(53.240, 80.092, 67.203);
 	ColorSpace::Cmyk dstColor;
 	ColorSpace::Cmyk target(0, .99970, 1, .0000035);
 
@@ -831,7 +831,7 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabCmyk) {
 
 
 TEST_F(TestFixtureConversion, ColorConversionRedLabHsl) {
-	ColorSpace::Lab srcColor(53.233, 80.109, 67.220);
+	ColorSpace::Lab srcColor(53.240, 80.092, 67.203);
 	ColorSpace::Hsl dstColor;
 	ColorSpace::Hsl target(0, 100, 50);
 
@@ -844,9 +844,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabHsl) {
 
 
 TEST_F(TestFixtureConversion, ColorConversionRedLabLab) {
-	ColorSpace::Lab srcColor(53.233, 80.109, 67.220);
+	ColorSpace::Lab srcColor(53.240, 80.092, 67.203);
 	ColorSpace::Lab dstColor;
-	ColorSpace::Lab target(53.233, 80.109, 67.220);
+	ColorSpace::Lab target(53.240, 80.092, 67.203);
 
 	srcColor.To<ColorSpace::Lab>(&dstColor);
 
@@ -857,7 +857,7 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabLab) {
 
 
 TEST_F(TestFixtureConversion, ColorConversionRedLabLch) {
-	ColorSpace::Lab srcColor(53.233, 80.109, 67.220);
+	ColorSpace::Lab srcColor(53.240, 80.092, 67.203);
 	ColorSpace::Lch dstColor;
 	ColorSpace::Lch target(53.33, 104.575, 40);
 
@@ -870,9 +870,9 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabLch) {
 
 
 TEST_F(TestFixtureConversion, ColorConversionRedLabRgb) {
-	ColorSpace::Lab srcColor(53.233, 80.109, 67.220);
+	ColorSpace::Lab srcColor(53.240, 80.092, 67.203);
 	ColorSpace::Rgb dstColor;
-	ColorSpace::Rgb target(255, .076, .0017);
+	ColorSpace::Rgb target(255, 0, 0);
 
 	srcColor.To<ColorSpace::Rgb>(&dstColor);
 
@@ -883,7 +883,7 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabRgb) {
 
 
 TEST_F(TestFixtureConversion, ColorConversionRedLabXyz) {
-	ColorSpace::Lab srcColor(53.233, 80.109, 67.220);
+	ColorSpace::Lab srcColor(53.240, 80.092, 67.203);
 	ColorSpace::Xyz dstColor;
 	ColorSpace::Xyz target(41.240, 21.260, 1.930);
 
@@ -896,7 +896,7 @@ TEST_F(TestFixtureConversion, ColorConversionRedLabXyz) {
 
 
 TEST_F(TestFixtureConversion, ColorConversionRedLabYxy) {
-	ColorSpace::Lab srcColor(53.233, 80.109, 67.220);
+	ColorSpace::Lab srcColor(53.240, 80.092, 67.203);
 	ColorSpace::Yxy dstColor;
 	ColorSpace::Yxy target(21.260, 0.64007, .32997);
 
