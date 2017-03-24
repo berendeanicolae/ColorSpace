@@ -4,6 +4,7 @@
 
 #define SQR(x) ((x)*(x))
 #define POW3(x) (SQR(x)*(x))
+#define POW4(x) (SQR(x)*SQR(x))
 #define POW7(x) (POW3(x)*POW3(x)*(x))
 #define DegToRad(x) ((x)*M_PI/180)
 
@@ -147,8 +148,28 @@ namespace ColorSpace {
 		return sqrt(SQR(deltaL / sl) + SQR(deltaC / sc) + SQR(deltaH / sh) + rt * deltaC / sc * deltaH / sh);
 	}
 
+
+	const double CmcComparison::defaultLightness = 2.;
+	const double CmcComparison::defaultChroma = 1.;
 	double CmcComparison::Compare(IColorSpace *a, IColorSpace *b) {
-		return 0;
+		Lch lch_a;
+		Lch lch_b;
+
+		a->To<Lch>(&lch_a);
+		b->To<Lch>(&lch_b);
+
+		double deltaL = lch_a.l - lch_b.l;
+		double deltaC = lch_a.c - lch_b.c;
+		double deltaH = 0;
+
+		double f = sqrt(POW4(lch_a.c) / (POW4(lch_a.c) + 1900));
+		double t = (164 <= lch_a.h && lch_a.h <= 345) ? (0.56 + abs(0.2*cos(lch_a.h + 168))) : (0.36 + abs(0.4*cos(lch_a.h + 35)));
+
+		double sl = (lch_a.l < 16) ? 0.511 : (0.040975*lch_a.l / (1 + 0.01765*lch_a.l));
+		double sc = 0.0638*lch_a.c / (1 + 0.0131*lch_a.c) + 0.638;
+		double sh = sc*(f*t + 1 - f);
+
+		return sqrt(SQR(deltaL / (defaultLightness*sl)) + SQR(deltaC / (defaultChroma*sc)) + SQR(deltaH / sh));
 	}
 }
 
