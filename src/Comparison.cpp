@@ -83,7 +83,7 @@ namespace ColorSpace {
 		double c1 = sqrt(SQR(lab_a.a) + SQR(lab_a.b));
 		double c2 = sqrt(SQR(lab_b.a) + SQR(lab_b.b));
 		double meanC = (c1 + c2) / 2.0;
-		double meanC7 = (meanC*meanC*meanC)*(meanC*meanC*meanC)*meanC;
+		double meanC7 = POW7(meanC);
 
 		double g = 0.5*(1 - sqrt(meanC7 / (meanC7 + 6103515625.))); // 0.5*(1-sqrt(meanC^7/(meanC^7+25^7)))
 		double a1p = lab_a.a * (1 + g);
@@ -117,7 +117,7 @@ namespace ColorSpace {
 		// calculate CIEDE2000
 		double meanL = (lab_a.l + lab_b.l) / 2;
 		meanC = (c1 + c2) / 2.0;
-		meanC7 = (meanC*meanC*meanC)*(meanC*meanC*meanC)*meanC;
+		meanC7 = POW7(meanC);
 		double meanH;
 
 		if (c1*c2 < eps) {
