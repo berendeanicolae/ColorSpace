@@ -1,4 +1,6 @@
 # ColorSpace
+![Build status](https://ci.appveyor.com/api/projects/status/9imauslkfcma7yps?svg=true)
+
 MIT Licensed C++ library for converting between color spaces and comparing colors.
 
 ## Color Conversion
