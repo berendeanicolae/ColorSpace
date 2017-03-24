@@ -37,3 +37,4 @@ ColorSpace::Cie2000Comparison::Compare(&a, &b);
 * CIE1976
 * CIE94
 * CIE2000
+* CMC
