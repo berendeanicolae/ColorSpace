@@ -3,6 +3,8 @@
 #include <cmath>
 
 #define SQR(x) ((x)*(x))
+#define POW3(x) (SQR(x)*(x))
+#define POW7(x) (POW3(x)*POW3(x)*(x))
 #define DegToRad(x) ((x)*M_PI/180)
 
 namespace ColorSpace {

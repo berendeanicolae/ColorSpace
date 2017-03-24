@@ -1,6 +1,7 @@
 #ifndef COLOR_SPACE_H
 #define COLOR_SPACE_H
 
+#include <typeinfo>
 #include "Conversion.h"
 
 namespace ColorSpace {
@@ -10,12 +11,18 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color) = 0;
 		virtual void ToRgb(Rgb *color) = 0;
+		virtual void Copy(IColorSpace *color) = 0;
 		template <typename TColorSpace>
 		void To(TColorSpace *color) {
 			Rgb rgb;
 
-			this->ToRgb(&rgb);
-			IConverter<TColorSpace>::ToColorSpace(&rgb, color);
+			if (typeid(*this) == typeid(*color)) {
+				this->Copy(color);
+			}
+			else {
+				this->ToRgb(&rgb);
+				IConverter<TColorSpace>::ToColorSpace(&rgb, color);
+			}
 		}
 	};
 
@@ -28,6 +35,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Xyz : public IColorSpace {
@@ -38,6 +46,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Hsl : public IColorSpace {
@@ -48,6 +57,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Lab : public IColorSpace {
@@ -58,6 +68,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Lch : public IColorSpace {
@@ -68,6 +79,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Luv : public IColorSpace {
@@ -78,6 +90,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Yxy : public IColorSpace {
@@ -88,6 +101,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Cmy : public IColorSpace {
@@ -98,6 +112,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Cmyk : public IColorSpace {
@@ -108,6 +123,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Hsv : public IColorSpace {
@@ -118,6 +134,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct Hsb : public IColorSpace {
@@ -128,6 +145,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 
 	struct HunterLab : public IColorSpace {
@@ -138,6 +156,7 @@ namespace ColorSpace {
 
 		virtual void Initialize(Rgb *color);
 		virtual void ToRgb(Rgb *color);
+		virtual void Copy(IColorSpace *color);
 	};
 }
 
