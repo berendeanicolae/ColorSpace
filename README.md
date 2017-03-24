@@ -31,6 +31,7 @@ ColorSpace::Cie2000Comparison::Compare(&a, &b);
 * YXY
 
 ## Currently Supported Comparisons
+* Euclidean
 * CIE1976
 * CIE94
 * CIE2000
