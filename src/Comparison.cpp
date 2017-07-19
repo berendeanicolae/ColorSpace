@@ -3,12 +3,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#define SQR(x) ((x)*(x))
-#define POW3(x) (SQR(x)*(x))
-#define POW4(x) (SQR(x)*SQR(x))
-#define POW7(x) (POW3(x)*POW3(x)*(x))
-#define DegToRad(x) ((x)*M_PI/180)
-
 namespace ColorSpace {
 	double EuclideanComparison::Compare(IColorSpace *a, IColorSpace *b) {
 		Rgb rgb_a;
@@ -93,8 +87,8 @@ namespace ColorSpace {
 
 		c1 = sqrt(SQR(a1p) + SQR(lab_a.b));
 		c2 = sqrt(SQR(a2p) + SQR(lab_b.b));
-		double h1 = fmod(atan2(lab_a.b, a1p) * 180.0 / M_PI + 360.0, 360.0);
-		double h2 = fmod(atan2(lab_b.b, a2p) * 180.0 / M_PI + 360.0, 360.0);
+		double h1 = fmod(atan2(lab_a.b, a1p) + 2*M_PI, 2*M_PI);
+		double h2 = fmod(atan2(lab_b.b, a2p) + 2*M_PI, 2*M_PI);
 
 		// compute deltaL, deltaC, deltaH
 		double deltaL = lab_b.l - lab_a.l;
@@ -104,17 +98,17 @@ namespace ColorSpace {
 		if (c1*c2 < eps) {
 			deltah = 0;
 		}
-		if (abs(h2 - h1) <= 180) {
+		if (abs(h2 - h1) <= M_PI) {
 			deltah = h2 - h1;
 		}
 		else if (h2 > h1) {
-			deltah = h2 - h1 - 360;
+			deltah = h2 - h1 - 2* M_PI;
 		}
 		else {
-			deltah = h2 - h1 + 360;
+			deltah = h2 - h1 + 2 * M_PI;
 		}
 
-		double deltaH = 2 * sqrt(c1*c2)*sin(deltah * M_PI / 180 / 2);
+		double deltaH = 2 * sqrt(c1*c2)*sin(deltah / 2);
 
 		// calculate CIEDE2000
 		double meanL = (lab_a.l + lab_b.l) / 2;
@@ -125,26 +119,26 @@ namespace ColorSpace {
 		if (c1*c2 < eps) {
 			meanH = h1 + h2;
 		}
-		if (abs(h1 - h2) <= 180 + 1e-3) {
+		if (abs(h1 - h2) <= M_PI + eps) {
 			meanH = (h1 + h2) / 2;
 		}
-		else if (h1 + h2 < 360) {
-			meanH = (h1 + h2 + 360) / 2;
+		else if (h1 + h2 < 2*M_PI) {
+			meanH = (h1 + h2 + 2*M_PI) / 2;
 		}
 		else {
-			meanH = (h1 + h2 - 360) / 2;
+			meanH = (h1 + h2 - 2*M_PI) / 2;
 		}
 
 		double T = 1
-			- 0.17*cos(DegToRad(meanH - 30))
-			+ 0.24*cos(DegToRad(2 * meanH))
-			+ 0.32*cos(DegToRad(3 * meanH + 6))
-			- 0.2*cos(DegToRad(4 * meanH - 63));
+			- 0.17*cos(meanH - DegToRad(30))
+			+ 0.24*cos(2 * meanH)
+			+ 0.32*cos(3 * meanH + DegToRad(6))
+			- 0.2*cos(4 * meanH - DegToRad(63));
 		double sl = 1 + (0.015*SQR(meanL - 50)) / sqrt(20 + SQR(meanL - 50));
 		double sc = 1 + 0.045*meanC;
 		double sh = 1 + 0.015*meanC*T;
 		double rc = 2 * sqrt(meanC7 / (meanC7 + 6103515625.));
-		double rt = -sin(DegToRad(60 * exp(-SQR((meanH - 275) / 25)))) * rc;
+		double rt = -sin(DegToRad(60 * exp(-SQR((RadToDeg(meanH) - 275) / 25)))) * rc;
 
 		return sqrt(SQR(deltaL / sl) + SQR(deltaC / sc) + SQR(deltaH / sh) + rt * deltaC / sc * deltaH / sh);
 	}
