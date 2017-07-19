@@ -1,9 +1,7 @@
 #include "Comparison.h"
+#include "Utils.h"
 #define _USE_MATH_DEFINES
 #include <cmath>
-
-#define SQR(x) ((x)*(x))
-#define DegToRad(x) ((x)*M_PI/180)
 
 namespace ColorSpace {
 	double EuclideanComparison::Compare(IColorSpace *a, IColorSpace *b) {

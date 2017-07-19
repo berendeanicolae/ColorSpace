@@ -166,6 +166,7 @@
     <ClInclude Include="src\ColorSpace.h" />
     <ClInclude Include="src\Comparison.h" />
     <ClInclude Include="src\Conversion.h" />
+    <ClInclude Include="src\Utils.h" />
     <ClInclude Include="test\TestFixtureComparison.h" />
     <ClInclude Include="test\TestFixtureConversion.h" />
     <ClInclude Include="test\utils.h" />

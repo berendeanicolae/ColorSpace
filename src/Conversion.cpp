@@ -1,11 +1,9 @@
 #include "Conversion.h"
 #include "ColorSpace.h"
+#include "Utils.h"
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <algorithm>
-
-#define POW3(x) ((x)*(x)*(x))
-#define POW7(x) (POW3(x)*POW3(x)*(x))
 
 namespace ColorSpace {
 	double Hue_2_RGB(double v1, double v2, double vh) {
