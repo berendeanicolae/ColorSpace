@@ -1,7 +1,7 @@
 # ColorSpace
 [![Build status](https://ci.appveyor.com/api/projects/status/9imauslkfcma7yps?svg=true)](https://ci.appveyor.com/api/projects/status/9imauslkfcma7yps?svg=true)
 
-MIT Licensed C++ library for converting between color spaces and comparing colors.
+C++ library for converting between color spaces and comparing colors.
 
 ## Color Conversion
 You can convert between any supported color spaces using the ```To``` template method:
@@ -38,3 +38,6 @@ ColorSpace::Cie2000Comparison::Compare(&a, &b);
 * CIE94
 * CIE2000
 * CMC
+
+## License
+ColorSpace is licenced under the MIT License, see LICENSE for more information.
