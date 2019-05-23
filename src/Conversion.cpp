@@ -81,7 +81,7 @@ namespace ColorSpace {
 				item->s = delta / (max + min) * 100;
 			}
 			else {
-				item->s = delta / (1 - abs(2 * item->l - 1)) * 100;
+				item->s = delta / (1 - std::abs(2 * item->l - 1)) * 100;
 			}
 
 			if (r == max) {
@@ -256,7 +256,7 @@ namespace ColorSpace {
 		k = std::min(k, cmy.y);
 
 		item->k = k;
-		if (abs(item->k - 1) < 1e-3) {
+		if (std::abs(item->k - 1) < 1e-3) {
 			item->c = 0;
 			item->m = 0;
 			item->y = 0;
@@ -309,7 +309,7 @@ namespace ColorSpace {
 	void HsvConverter::ToColor(Rgb *color, Hsv *item) {
 		int range = (int)floor(item->h / 60);
 		double c = item->v*item->s;
-		double x = c*(1 - abs(fmod(item->h / 60, 2) - 1));
+		double x = c*(1 - std::abs(fmod(item->h / 60, 2) - 1));
 		double m = item->v - c;
 
 		switch (range) {
