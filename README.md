@@ -14,7 +14,7 @@ lab.To<ColorSpace::Cmy>(&cmy);
 You can compare colors by using the ```Compare``` method of each comparison class:
 ```c++
 ColorSpace::Lab a(100, 0, 0);
-ColorSpace::RGb b(255, 255, 255);
+ColorSpace::Rgb b(255, 255, 255);
 ColorSpace::Cie2000Comparison::Compare(&a, &b);
 ```
 
