@@ -157,7 +157,7 @@ namespace ColorSpace {
 		double deltaH = 0;
 
 		double f = sqrt(POW4(lch_a.c) / (POW4(lch_a.c) + 1900));
-		double t = (164 <= lch_a.h && lch_a.h <= 345) ? (0.56 + std::abs(0.2*cos(lch_a.h + 168))) : (0.36 + abs(0.4*cos(lch_a.h + 35)));
+		double t = (164 <= lch_a.h && lch_a.h <= 345) ? (0.56 + std::abs(0.2*cos(lch_a.h + 168))) : (0.36 + std::abs(0.4*cos(lch_a.h + 35)));
 
 		double sl = (lch_a.l < 16) ? 0.511 : (0.040975*lch_a.l / (1 + 0.01765*lch_a.l));
 		double sc = 0.0638*lch_a.c / (1 + 0.0131*lch_a.c) + 0.638;
